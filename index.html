@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #ffe6ec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* TEXT + BUTTON CONTAINER */
+    .container {
+      text-align: center;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: white;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.7);
+    }
+
+    h2 {
+      color: white;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+    button {
+      font-size: 20px;
+      padding: 12px 25px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #adb5bd;
+    }
+
+    /* BACKGROUND IMAGE (hidden initially) */
+    .bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: black;
+      display: none;
+      z-index: 0;
+      transition: background-image 1s ease-in-out;
+    }
+
+      }
+  </style>
+</head>
+
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="bg" id="bg"></div>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="container" id="main">
+    <h1>Will you be my Valentine? 💖</h1>
+    <button id="yesBtn">Yes ❤️</button>
+    <button id="noBtn">No 💔</button>
+  </div>
+
+  <!-- MUSIC -->
+  <audio id="song" src="song.mp3"></audio>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const bg = document.getElementById("bg");
+    const overlay = document.getElementById("overlay");
+    const song = document.getElementById("song");
+
+    let yesSize = 20;
+
+    // SAME START LOGIC
+    noBtn.addEventListener("click", () => {
+      yesSize += 10;
+      yesBtn.style.fontSize = yesSize + "px";
+      yesBtn.style.padding = (yesSize / 2) + "px " + yesSize + "px";
+    });
+
+    // AFTER YES
+    yesBtn.addEventListener("click", () => {
+      song.play();
+
+      bg.style.display = "block";
+      overlay.style.display = "block";
+
+      document.getElementById("main").innerHTML = `
+        <h1>I love u babe 💖</h1>
+        <h2>Happy Valentine’s Day 🥰</h2>
+      `;
+
+      const images = [
+        "valentine1.jpg",
+        "valentine2.jpg",
+"valentine4.jpg",
+        "valentine3.jpg" // LAST IMAGE → FULL PORTRAIT
+      ];
+
+      let index = 0;
+
+      // First image
+      bg.style.backgroundImage = `url(${images[0]})`;
+      bg.style.backgroundSize = "cover";
+      bg.style.backgroundPosition = "center";
+
+      setInterval(() => {
+        index = (index + 1) % images.length;
+        bg.style.backgroundImage = `url(${images[index]})`;
+
+        // LAST IMAGE → SHOW FULL IMAGE (PORTRAIT)
+        if (index === images.length - 1) {
+          bg.style.backgroundSize = "contain";
+          bg.style.backgroundPosition = "center";
+        } else {
+          bg.style.backgroundSize = "cover";
+          bg.style.backgroundPosition = "center";
+        }
+      }, 3000);
+    });
+  </script>
+
+</body>
+</html>
